@@ -1,15 +1,13 @@
 import os
 from dotenv import load_dotenv
 
-from openai_api import OpenAIClient
-from ollama_api import generate_text
-from wordpress_api import WordPressClient
-from plagiarism_checker import PlagiarismChecker
+from core.openai_api import OpenAIClient
+from core.ollama_api import generate_text
+from core.wordpress_api import WordPressClient
+from core.plagiarism_checker import PlagiarismChecker
 
-# Load .env file
 load_dotenv()
 
-# Get environment variables
 wordpress_url = os.getenv("WORDPRESS_URL")
 wordpress_username = os.getenv("WORDPRESS_USERNAME")
 wordpress_app_password = os.getenv("WORDPRESS_APP_PASSWORD")
