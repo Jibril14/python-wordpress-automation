@@ -2,17 +2,13 @@
 from dataclasses import dataclass
 from typing import List
 
-
-@dataclass
-class Outline:
-    title: str
-    sections: List[str]
-
+from dataclasses import dataclass
 
 @dataclass
 class Article:
     title: str
-    excerpt: str
     content: str
-    category: str
-    tags: List[str]
+    tags: list = None
+    categories: list = None
+
+# tags: List[str]

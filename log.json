@@ -1,0 +1,5 @@
+{"time": "2025-08-09T15:48:27.071094", "type": "INFO", "message": "Starting article generation"}
+{"time": "2025-08-09T15:50:34.440274", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\AI in 2025.txt"}}
+{"time": "2025-08-09T15:50:34.440274", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-09T15:50:34.440274", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-09T15:50:34.816978", "type": "SUCCESS", "message": "Post published", "extra": {"post_id": 15}}
