@@ -1,0 +1,41 @@
+{
+    "example": {
+        "title": "Example Article Title",
+        "sections": [
+            {
+                "heading": "Example Section Heading"
+            },
+            {
+                "heading": "Another Example Heading"
+            }
+        ],
+        "sources": [
+            "https://example.com",
+            "https://another-example.com"
+        ]
+    },
+    "schema": {
+        "type": "object",
+        "properties": {
+            "title": { "type": "string" },
+            "sections": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "heading": { "type": "string" }
+                    },
+                    "required": [ "heading" ],
+                    "additionalProperties": false
+                }
+            },
+            "sources": {
+                "type": "array",
+                "items": { "type": "string" },
+                "minItems": 0
+            }
+        },
+        "required": [ "title", "sections", "sources" ],
+        "additionalProperties": false
+    }
+}

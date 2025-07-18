@@ -1,0 +1,29 @@
+{
+    "example": {
+        "sections": [
+            {
+                "heading": "Example heading",
+                "content": "Example content"
+            }
+        ]
+    },
+    "schema": {
+        "type": "object",
+        "properties": {
+            "sections": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "heading": { "type": "string" },
+                        "content": { "type": "string" }
+                    },
+                    "required": [ "heading", "content" ],
+                    "additionalProperties": false
+                }
+            }
+        },
+        "required": [ "sections" ],
+        "additionalProperties": false
+    }
+}

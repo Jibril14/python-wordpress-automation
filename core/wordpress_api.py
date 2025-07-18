@@ -7,7 +7,7 @@ class WordPressClient:
         self.base_url = base_url.rstrip("/")
         self.auth = HTTPBasicAuth(username, app_password)
 
-    def create_post(self, title: str, content: str, status: str = "publish") -> dict:
+    def create_post(self, title: str, content: str, excerpt: str, status: str = "publish") -> dict:
         """
         Create a new WordPress post.
         """
@@ -15,6 +15,7 @@ class WordPressClient:
         payload = {
             "title": title,
             "content": content,
+            "excerpt": excerpt,
             "status": status
         }
         response = requests.post(url, json=payload, auth=self.auth)

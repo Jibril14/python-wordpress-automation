@@ -8,6 +8,7 @@ from dataclasses import dataclass
 class Article:
     title: str
     content: str
+    excerpt: str
     tags: list = None
     categories: list = None
 

@@ -1,0 +1,13 @@
+{
+    "example": {
+        "excerpt": "This is an example excerpt summarizing the main idea in one or two sentences."
+    },
+    "schema": {
+        "type": "object",
+        "properties": {
+            "excerpt": { "type": "string" }
+        },
+        "required": [ "excerpt" ],
+        "additionalProperties": false
+    }
+}

@@ -1,0 +1,1 @@
+Now generate a 130 characters long excerpt for the article: "{MainKeyword}".

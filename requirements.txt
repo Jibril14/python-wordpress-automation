@@ -1,2 +1,8 @@
 requests
 python-dotenv
+langchain
+langchain_community
+langchain-ollama
+pandas
+jsonschema
+retrying
