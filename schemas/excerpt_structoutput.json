@@ -2,12 +2,18 @@
     "example": {
         "excerpt": "This is an example excerpt summarizing the main idea in one or two sentences."
     },
-    "schema": {
-        "type": "object",
-        "properties": {
-            "excerpt": { "type": "string" }
-        },
-        "required": [ "excerpt" ],
-        "additionalProperties": false
+    "format": {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "excerpt_structoutput",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "excerpt": { "type": "string" }
+                },
+                "required": [ "excerpt" ],
+                "additionalProperties": false
+            }
+        }
     }
 }

@@ -11,23 +11,29 @@
             }
         ]
     },
-    "schema": {
-        "type": "object",
-        "properties": {
-            "changes": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "original": { "type": "string" },
-                        "changed": { "type": "string" }
-                    },
-                    "required": [ "original", "changed" ],
-                    "additionalProperties": false
-                }
+    "format": {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "content_structoutput",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "changes": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "original": { "type": "string" },
+                                "changed": { "type": "string" }
+                            },
+                            "required": [ "original", "changed" ],
+                            "additionalProperties": false
+                        }
+                    }
+                },
+                "required": [ "changes" ],
+                "additionalProperties": false
             }
-        },
-        "required": [ "changes" ],
-        "additionalProperties": false
+        }
     }
 }

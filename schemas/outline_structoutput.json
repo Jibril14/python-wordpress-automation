@@ -14,28 +14,34 @@
             "https://another-example.com"
         ]
     },
-    "schema": {
-        "type": "object",
-        "properties": {
-            "title": { "type": "string" },
-            "sections": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "heading": { "type": "string" }
+    "format": {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "outline_structoutput",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "title": { "type": "string" },
+                    "sections": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "heading": { "type": "string" }
+                            },
+                            "required": [ "heading" ],
+                            "additionalProperties": false
+                        }
                     },
-                    "required": [ "heading" ],
-                    "additionalProperties": false
-                }
-            },
-            "sources": {
-                "type": "array",
-                "items": { "type": "string" },
-                "minItems": 0
+                    "sources": {
+                        "type": "array",
+                        "items": { "type": "string" },
+                        "minItems": 0
+                    }
+                },
+                "required": [ "title", "sections", "sources" ],
+                "additionalProperties": false
             }
-        },
-        "required": [ "title", "sections", "sources" ],
-        "additionalProperties": false
+        }
     }
 }

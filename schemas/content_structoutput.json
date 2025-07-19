@@ -7,23 +7,29 @@
             }
         ]
     },
-    "schema": {
-        "type": "object",
-        "properties": {
-            "sections": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "heading": { "type": "string" },
-                        "content": { "type": "string" }
-                    },
-                    "required": [ "heading", "content" ],
-                    "additionalProperties": false
-                }
+    "format": {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "content_structoutput",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "sections": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "heading": { "type": "string" },
+                                "content": { "type": "string" }
+                            },
+                            "required": [ "heading", "content" ],
+                            "additionalProperties": false
+                        }
+                    }
+                },
+                "required": [ "sections" ],
+                "additionalProperties": false
             }
-        },
-        "required": [ "sections" ],
-        "additionalProperties": false
+        }
     }
 }
