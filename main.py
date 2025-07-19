@@ -17,6 +17,8 @@ from langchain.schema import OutputParserException
 import json
 from typing import Any, Dict
 import jsonschema
+from retrying import retry
+
 
 load_dotenv()
 
@@ -66,10 +68,6 @@ def load_prompt(template_name: str, **kwargs) -> str:
     template = path.read_text(encoding="utf-8")
     return template.format(**kwargs)
 
-# def load_schema(schema_name: str) -> dict:
-#     path = Path("schemas") / f"{schema_name}.json"
-#     return json.loads(path.read_text(encoding="utf-8"))
-
 def load_schema(schema_name: str) -> Dict[str, Any]:
     """Load the JSON schema file containing both example and schema."""
     path = Path("schemas") / f"{schema_name}.json"
@@ -77,7 +75,7 @@ def load_schema(schema_name: str) -> Dict[str, Any]:
         raise FileNotFoundError(f"Schema file not found: {schema_name}")
     return json.loads(path.read_text(encoding="utf-8"))
 
-
+@retry(stop_max_attempt_number=6)
 def run_llm(template_name: str, schema_name: str, **kwargs):
     """Run a template + schema (example embedded) with manual JSON parsing."""
     
@@ -102,17 +100,15 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     {format_instructions}
     """
 
-    # Debug: see the full prompt sent to the LLM
     print("\n")
     print("Full Prompt Sent to run_llm:\n", full_prompt)
 
     llm = OllamaLLM(
         model=ollama_model,
-        base_url="http://localhost:11434"  # explicitly set your Ollama server URL
+        base_url="http://localhost:11434"  #
     )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
-    # chain = PromptTemplate.from_template(full_prompt) | llm
 
     raw_output = chain.invoke({"prompt": full_prompt})
     print("=== run_llm Raw LLM Output ===")
@@ -121,14 +117,12 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     try:
         parsed = json.loads(raw_output)
         print("Running LLM........")
-        # return json.loads(raw_output)
         jsonschema.validate(instance=parsed, schema=json_schema)
         return parsed
     except json.JSONDecodeError as e:
         print("Raw output from run_ll could not be perse")
-        log_event("ERROR", f"Invalid JSON output from LLM: {e}")
-        return None
-
+        log_event("ERROR", f"{schema_name}: Invalid JSON output from LLM: {e}")
+        raise Exception(f"Failing to generate right schema for: {schema_name}")
 
 def run_llm_from_text(prompt_text: str, schema_name: str):
     """Run plain text prompt using example-based formatting and schema validation."""
@@ -181,17 +175,24 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
         log_event("ERROR", f"JSON does not match schema: {e.message}")
         return None
     
-
+@retry(stop_max_attempt_number=4)
 def process_row(main_keyword, reference_links, secondary_keywords):
     log_event("INFO", f"Processing keyword: {main_keyword}")
-
+    count = 0
+    
     # Step 1: Outline (Pythonic prompt builder instead of article_outline.txt)
     outline_prompt = build_article_outline_prompt(main_keyword, reference_links, secondary_keywords)
     outline = run_llm_from_text(outline_prompt, schema_name="outline_structoutput")
     print("Prompt Schema Outline Gen********:", outline)
-    if not outline:
-        log_event("ERROR", "Outline generation failed")
-        return None, None
+
+    try:
+        if not outline:
+            count+=1
+            log_event("ERROR", f"Article outline generation failed on {count} attempt")
+            raise Exception("Failing to generate prompt outline")
+    except Exception as e:
+        log_event("ERROR", f"Article outline generation failed: {e}")
+        log_event("WARNING", f"Continuing despite error: {e}")
 
     # Build Chunks from outline (assuming JSON structure like: {"sections": [{"heading": "..."}]})
     chunks_text = ""
@@ -236,31 +237,41 @@ def main():
 
     for _, row in df.iterrows():
         main_keyword = row.get("Main Keyword", "").strip()
-        reference_links = row.get("Reference Link", "").split(",") if row.get("ReferenceLink") else []
-        secondary_keywords = row.get("Secondary Keywords", "").split(",") if row.get("SecondaryKeywords") else []
-        print("main_keyword *******:", main_keyword)
+        reference_links = row.get("Reference Links", "").split(",")
+        secondary_keywords = row.get("Secondary Keywords", "").split(",")
+        print("Main keyword *******:", main_keyword)
+        print("Reference Links *******:", reference_links)
+        print("Secondary Keywords *******:", secondary_keywords)
         content, excerpt = process_row(main_keyword, reference_links, secondary_keywords)
-        if not content:
-            log_event("ERROR", "Content generation failed")
-            continue
+        print("***************CONTENT************", excerpt)
         print("***************CONTENT************", excerpt)
 
-        cleaned_content = clean_article_text(content["sections"][1]["content"]) if isinstance(content, dict) else clean_article_text(content)
-        article = Article(title=main_keyword, content=cleaned_content, excerpt=excerpt.get("excerpt", ""))
-
-        draft_path = save_draft(article.title, article.content)
-        log_event("INFO", "Draft saved", {"path": str(draft_path)})
-
-        log_event("INFO", "Running plagiarism check")
-        if plagiarism_checker.check(article.content):
-            log_event("SUCCESS", "Content passed plagiarism check")
-            post = wp_client.create_post(article.title, article.content, excerpt=article.excerpt)
-            log_event("SUCCESS", "Post published", {"post_id": post.get("id")})
-            print(f"Post published! ID: {post['id']}")
+        if not content and excerpt:
+            log_event("ERROR", "Content generation failed")
         else:
-            log_event("WARNING", "Plagiarism detected. Post not published.")
-            print("Plagiarism detected. Post not published.")
+            full_article = ""
+            for section in content["sections"]:
+                cleaned_heading = clean_article_text(section["heading"])
+                cleaned_content = clean_article_text(section["content"])
+
+                each_section = cleaned_heading + "\n\n" + cleaned_content # Later I'll add image
+                full_article += each_section + "\n\n"
+            print("FULL*******Article", full_article)
+        # cleaned_content = clean_article_text(content["sections"][1]["content"]) if isinstance(content, dict) else clean_article_text(content)
+            article = Article(title=main_keyword, content=full_article, excerpt=excerpt.get("excerpt", ""))
+
+            draft_path = save_draft(article.title, article.content)
+            log_event("INFO", "Draft saved", {"path": str(draft_path)})
+
+            log_event("INFO", "Running plagiarism check")
+            if plagiarism_checker.check(article.content):
+                log_event("SUCCESS", "Content passed plagiarism check")
+                post = wp_client.create_post(article.title, article.content, excerpt=article.excerpt)
+                log_event("SUCCESS", "Post published", {"post_title": post.get("title")})
+                print(f"Post published! ID: {post['id']}")
+            else:
+                log_event("WARNING", "Plagiarism detected. Post not published.")
+                print("Plagiarism detected. Post not published.")
 
 if __name__ == "__main__":
     main()
-    
