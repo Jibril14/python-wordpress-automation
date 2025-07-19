@@ -29,20 +29,14 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 openai_model = os.getenv("OPENAI_MODEL")
 ollama_model = os.getenv("OLLAMA_MODEL")
 
-# llm = ChatOpenAI(
-#     model=openai_model,
-#     temperature=0.7,
-#     api_key=openai_api_key
-#     response_format = {
-#       "type": "json_schema",
-#       "json_schema": schema
-#     }
-# )
 
-# llm = OllamaLLM(
-#     model=ollama_model,
-#     base_url="http://localhost:11434"  # explicitly set your Ollama server URL
-# )
+# Comment out llm = OllamaLLM(  and commenting in llm = ChatOpenAI(
+# I can switch between OpenAI and my local Ollama also use
+# parsed = result.content # For OpenAI
+llm = OllamaLLM(
+    model=ollama_model,
+    base_url="http://localhost:11434"  # explicitly set your Ollama server URL
+)
 
 
 def build_article_outline_prompt(main_keyword, reference_links=None, secondary_keywords=None):
@@ -92,7 +86,7 @@ def load_schema(schema_name: str) -> Dict[str, Any]:
         raise FileNotFoundError(f"Schema file not found: {schema_name}")
     return json.loads(path.read_text(encoding="utf-8"))
 
-@retry(stop_max_attempt_number=3)
+@retry(stop_max_attempt_number=6)
 def run_llm(template_name: str, schema_name: str, **kwargs):
     """Run a template + schema (example embedded) with manual JSON parsing."""
     
@@ -119,25 +113,19 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     print("\n")
     print("Full Prompt Sent to run_llm:\n", full_prompt)
 
-    llm = ChatOpenAI(
-        model=openai_model,
-        temperature=0.7,
-        api_key=openai_api_key,
-        response_format = full_json_schema
-    )
+    # llm = ChatOpenAI(
+    #     model=openai_model,
+    #     temperature=0.7,
+    #     api_key=openai_api_key,
+    #     response_format = full_json_schema
+    # )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
-   
-    # For Ollama: Does't enforce a valid json. Output might be raw (Remember to use Ollama llm above)
-    result_ollama = chain.invoke({"prompt": full_prompt})
-    #print("result_ollama 1:",result_ollama)
-
-    # For OpenAI: Json output is supported in response_format (also result has result.content)
     result = chain.invoke({"prompt": full_prompt})
-    # print(result.content)
 
     try:
-        parsed = result.content
+        # parsed = result.content # For OpenAI use this
+        parsed = result
         if not parsed:
             raise Exception(f"Failing to generate right schema for: {schema_name}")
         parsed = json.loads(parsed)
@@ -177,28 +165,24 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
     print("Full Prompt:", full_prompt)
 
 
-    llm = ChatOpenAI(
-        model=openai_model,
-        temperature=0.7,
-        api_key=openai_api_key,
-        response_format = full_json_schema
-    )
+    # llm = ChatOpenAI(
+    #     model=openai_model,
+    #     temperature=0.7,
+    #     api_key=openai_api_key,
+    #     response_format = full_json_schema
+    # )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
 
     try:
-        result_ollama = chain.invoke({"prompt": full_prompt})
-        # print("result_ollama 2:",result_ollama)
-
-        # For OpenAI: Json output is supported in response_format
         result = chain.invoke({"prompt": full_prompt})
-        print(result.content)
-
-        parsed = result.content
+        print(result) # Ollama does not have (result.content)
+        # parsed = result.content # For OpenAI use this
+        parsed = result
         parsed = json.loads(parsed)
         print("=== Perse and Validated LLM Output 1===")
-        # jsonschema.validate(instance=parsed, schema=json_schema)
-        print("OpenAI (result.content) 1:", parsed)
+        jsonschema.validate(instance=parsed, schema=json_schema)
+        print("Ollama (result) 1:", parsed)
         return parsed
 
     except json.JSONDecodeError as e:
@@ -209,6 +193,7 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
         log_event("ERROR", f"JSON does not match schema: {e.message}")
         return None
     
+@retry(stop_max_attempt_number=5)  
 def process_row(main_keyword, reference_links, secondary_keywords):
     log_event("INFO", f"Processing keyword: {main_keyword}")
     count = 0
