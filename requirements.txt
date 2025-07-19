@@ -1,6 +1,7 @@
 requests
 python-dotenv
 langchain
+langchain-openai
 langchain_community
 langchain-ollama
 pandas

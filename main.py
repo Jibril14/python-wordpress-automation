@@ -39,10 +39,10 @@ ollama_model = os.getenv("OLLAMA_MODEL")
 #     }
 # )
 
-llm = OllamaLLM(
-    model=ollama_model,
-    base_url="http://localhost:11434"  # explicitly set your Ollama server URL
-)
+# llm = OllamaLLM(
+#     model=ollama_model,
+#     base_url="http://localhost:11434"  # explicitly set your Ollama server URL
+# )
 
 
 def build_article_outline_prompt(main_keyword, reference_links=None, secondary_keywords=None):
@@ -92,7 +92,7 @@ def load_schema(schema_name: str) -> Dict[str, Any]:
         raise FileNotFoundError(f"Schema file not found: {schema_name}")
     return json.loads(path.read_text(encoding="utf-8"))
 
-@retry(stop_max_attempt_number=6)
+@retry(stop_max_attempt_number=3)
 def run_llm(template_name: str, schema_name: str, **kwargs):
     """Run a template + schema (example embedded) with manual JSON parsing."""
     
@@ -100,6 +100,7 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     schema_file = load_schema(schema_name)
     example_json = schema_file["example"]
     json_schema = schema_file["format"]["json_schema"]["schema"] # Json schema module needs the actual schema
+    full_json_schema = schema_file["format"]
 
     format_instructions = f"""
     Here is an example of correct output:
@@ -118,35 +119,30 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     print("\n")
     print("Full Prompt Sent to run_llm:\n", full_prompt)
 
-    # llm = ChatOpenAI(
-    #     model=openai_model,
-    #     temperature=0.7,
-    #     api_key=openai_api_key,
-    #     response_format = {
-    #     "type": "json_schema",
-    #     "json_schema": json_schema
-    #     }
-    # )
+    llm = ChatOpenAI(
+        model=openai_model,
+        temperature=0.7,
+        api_key=openai_api_key,
+        response_format = full_json_schema
+    )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
-    # chain = PromptTemplate.from_template(full_prompt) | llm
    
-    # For Ollama: Does't enforce a valid json. Output might be raw
-    raw_output = chain.invoke({"prompt": full_prompt})
-    print("=== run_llm Raw LLM Output ===")
-    print("Raw output From run_llm:", raw_output)
+    # For Ollama: Does't enforce a valid json. Output might be raw (Remember to use Ollama llm above)
+    result_ollama = chain.invoke({"prompt": full_prompt})
+    #print("result_ollama 1:",result_ollama)
 
     # For OpenAI: Json output is supported in response_format (also result has result.content)
     result = chain.invoke({"prompt": full_prompt})
     # print(result.content)
 
     try:
-        parsed = json.loads(raw_output)
+        parsed = result.content
         if not parsed:
             raise Exception(f"Failing to generate right schema for: {schema_name}")
-
-        print("Running LLM........")
+        parsed = json.loads(parsed)
         jsonschema.validate(instance=parsed, schema=json_schema)
+        print("OpenAI (result.content) 1:", parsed)
         return parsed
     except json.JSONDecodeError as e:
         print("Raw output from run_ll could not be perse")
@@ -162,6 +158,7 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
 
     json_example = schema_file["example"]
     json_schema = schema_file["format"]["json_schema"]["schema"] # Json schema module needs the actual schema
+    full_json_schema = schema_file["format"]
 
     format_instructions = f"""
     Respond ONLY in valid JSON that strictly matches this format.
@@ -180,31 +177,28 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
     print("Full Prompt:", full_prompt)
 
 
-    # llm = ChatOpenAI(
-    #     model=openai_model,
-    #     temperature=0.7,
-    #     api_key=openai_api_key,
-    #     response_format = {
-    #     "type": "json_schema",
-    #     "json_schema": json_schema
-    #     }
-    # )
+    llm = ChatOpenAI(
+        model=openai_model,
+        temperature=0.7,
+        api_key=openai_api_key,
+        response_format = full_json_schema
+    )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
 
     try:
+        result_ollama = chain.invoke({"prompt": full_prompt})
+        # print("result_ollama 2:",result_ollama)
+
         # For OpenAI: Json output is supported in response_format
-        #result = chain.invoke({"prompt": full_prompt})
-        # print(result.content)
+        result = chain.invoke({"prompt": full_prompt})
+        print(result.content)
 
-        raw_output = chain.invoke({"prompt": full_prompt})
-        print("=== Raw LLM Output ===")
-        print(raw_output)
-
-        parsed = json.loads(raw_output)
+        parsed = result.content
+        parsed = json.loads(parsed)
         print("=== Perse and Validated LLM Output 1===")
-        jsonschema.validate(instance=parsed, schema=json_schema)
-        print(parsed)
+        # jsonschema.validate(instance=parsed, schema=json_schema)
+        print("OpenAI (result.content) 1:", parsed)
         return parsed
 
     except json.JSONDecodeError as e:
@@ -215,7 +209,6 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
         log_event("ERROR", f"JSON does not match schema: {e.message}")
         return None
     
-@retry(stop_max_attempt_number=8)
 def process_row(main_keyword, reference_links, secondary_keywords):
     log_event("INFO", f"Processing keyword: {main_keyword}")
     count = 0
@@ -312,4 +305,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
