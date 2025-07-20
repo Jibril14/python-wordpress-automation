@@ -14,8 +14,6 @@ from core.wordpress_api import WordPressClient
 from core.plagiarism_checker import PlagiarismChecker
 
 from langchain.prompts import PromptTemplate
-# from langchain_community.llms import Ollama
-from langchain_ollama import OllamaLLM # Works with my local Ollama
 from langchain.schema import OutputParserException
 from langchain_openai import ChatOpenAI
 
@@ -29,14 +27,6 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 openai_model = os.getenv("OPENAI_MODEL")
 ollama_model = os.getenv("OLLAMA_MODEL")
 
-
-# Comment out llm = OllamaLLM(  and commenting in llm = ChatOpenAI(
-# I can switch between OpenAI and my local Ollama also use
-# parsed = result.content # For OpenAI
-llm = OllamaLLM(
-    model=ollama_model,
-    base_url="http://localhost:11434"  # explicitly set your Ollama server URL
-)
 
 
 def build_article_outline_prompt(main_keyword, reference_links=None, secondary_keywords=None):
@@ -86,15 +76,13 @@ def load_schema(schema_name: str) -> Dict[str, Any]:
         raise FileNotFoundError(f"Schema file not found: {schema_name}")
     return json.loads(path.read_text(encoding="utf-8"))
 
-@retry(stop_max_attempt_number=6)
 def run_llm(template_name: str, schema_name: str, **kwargs):
     """Run a template + schema (example embedded) with manual JSON parsing."""
     
     # Load schema + example from file
     schema_file = load_schema(schema_name)
     example_json = schema_file["example"]
-    json_schema = schema_file["format"]["json_schema"]["schema"] # Json schema module needs the actual schema
-    full_json_schema = schema_file["format"]
+    json_schema = schema_file["format"]
 
     format_instructions = f"""
     Here is an example of correct output:
@@ -109,44 +97,32 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     {format_instructions}
     """
 
-    # Debug: see the full prompt sent to the LLM
     print("\n")
     print("Full Prompt Sent to run_llm:\n", full_prompt)
 
-    # llm = ChatOpenAI(
-    #     model=openai_model,
-    #     temperature=0.7,
-    #     api_key=openai_api_key,
-    #     response_format = full_json_schema
-    # )
+    llm = ChatOpenAI(
+        model=openai_model,
+        temperature=0.7,
+        api_key=openai_api_key,
+        response_format = json_schema
+    )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
+
     result = chain.invoke({"prompt": full_prompt})
+    print("OpenAI (result.content) 1:", result.content)
 
-    try:
-        # parsed = result.content # For OpenAI use this
-        parsed = result
-        if not parsed:
-            raise Exception(f"Failing to generate right schema for: {schema_name}")
-        parsed = json.loads(parsed)
-        jsonschema.validate(instance=parsed, schema=json_schema)
-        print("OpenAI (result.content) 1:", parsed)
-        return parsed
-    except json.JSONDecodeError as e:
-        print("Raw output from run_ll could not be perse")
-        log_event("ERROR", f"{schema_name}: Invalid JSON output from LLM: {e}")
-    except Exception as e:
-        log_event("ERROR", f"{schema_name}: {e}")
-        
-
+    try:     
+        return json.loads(result.content)
+    except Exception as err:
+        log_event("ERROR", f"{schema_name}: {err}")  
+        return None     
 
 def run_llm_from_text(prompt_text: str, schema_name: str):
     """Run plain text prompt using example-based formatting and schema validation."""
     schema_file = load_schema(schema_name)
-
     json_example = schema_file["example"]
-    json_schema = schema_file["format"]["json_schema"]["schema"] # Json schema module needs the actual schema
-    full_json_schema = schema_file["format"]
+    json_schema = schema_file["format"]
 
     format_instructions = f"""
     Respond ONLY in valid JSON that strictly matches this format.
@@ -155,7 +131,6 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
 
     {json.dumps(json_example, indent=4)}
 
-    When no sources are found, return "sources": [] (an empty array). Do not omit this field.
     """
 
     full_prompt = f"""{prompt_text}
@@ -165,38 +140,25 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
     print("Full Prompt:", full_prompt)
 
 
-    # llm = ChatOpenAI(
-    #     model=openai_model,
-    #     temperature=0.7,
-    #     api_key=openai_api_key,
-    #     response_format = full_json_schema
-    # )
+    llm = ChatOpenAI(
+        model=openai_model,
+        temperature=0.7,
+        api_key=openai_api_key,
+        response_format = json_schema
+    )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
-
     try:
         result = chain.invoke({"prompt": full_prompt})
-        print(result) # Ollama does not have (result.content)
-        # parsed = result.content # For OpenAI use this
-        parsed = result
-        parsed = json.loads(parsed)
-        print("=== Perse and Validated LLM Output 1===")
-        jsonschema.validate(instance=parsed, schema=json_schema)
-        print("Ollama (result) 1:", parsed)
-        return parsed
-
-    except json.JSONDecodeError as e:
-        log_event("ERROR", f"Invalid JSON output: {e}")
-        return None
-    except jsonschema.ValidationError as e:
+        print("OpenAI (result.content) 2:", result.content)
+        return json.loads(result.content)
+    except Exception as err:
         print("===Failed Perse and Validated LLM Output 1===")
-        log_event("ERROR", f"JSON does not match schema: {e.message}")
-        return None
-    
-@retry(stop_max_attempt_number=5)  
+        log_event("ERROR", f"JSON does not match schema: {err}")
+        return None 
+
 def process_row(main_keyword, reference_links, secondary_keywords):
     log_event("INFO", f"Processing keyword: {main_keyword}")
-    count = 0
     
     outline_prompt = build_article_outline_prompt(main_keyword, reference_links, secondary_keywords)
     outline = run_llm_from_text(outline_prompt, schema_name="outline_structoutput")
@@ -204,17 +166,14 @@ def process_row(main_keyword, reference_links, secondary_keywords):
 
     try:
         if not outline:
-            count+=1
-            log_event("ERROR", f"Article outline generation failed on {count} attempt")
-            raise Exception("Failing to generate prompt outline")
-    except Exception as e:
-        log_event("ERROR", f"Article outline generation failed: on {count} Attempt {e}")
-        log_event("WARNING", f"Continuing despite error: {e}")
+            log_event("ERROR", f"Article outline generation failed on  attempt")
+    except Exception as err:
+        log_event("ERROR", f"Article outline generation failed: {err}")
+        log_event("WARNING", f"Continuing despite error: {err}")
 
     # Build Chunks from outline (assuming JSON structure like: {"sections": [{"heading": "..."}]})
     chunks_text = ""
     if isinstance(outline, dict):
-        print("Outliine is a Dict**********")
         sections = outline.get("sections") or outline.get("headings") or []
         print("Section***********", sections)
         if isinstance(sections, list):
@@ -231,13 +190,11 @@ def process_row(main_keyword, reference_links, secondary_keywords):
         Outline=json.dumps(outline, ensure_ascii=False),
         Chunks=chunks_text
     )
-    print("Con:", content)
     excerpt = run_llm(
         template_name="for_excerpt",
         schema_name="excerpt_structoutput",
         MainKeyword=main_keyword
     )
-    print("Done3")
     return content, excerpt
 
 def main():
@@ -272,7 +229,6 @@ def main():
                 each_section = cleaned_heading + "\n\n" + cleaned_content # Later I'll add image
                 full_article += each_section + "\n\n"
             print("FULL*******Article", full_article)
-        # cleaned_content = clean_article_text(content["sections"][1]["content"]) if isinstance(content, dict) else clean_article_text(content)
             article = Article(title=main_keyword, content=full_article, excerpt=excerpt.get("excerpt", ""))
 
             draft_path = save_draft(article.title, article.content)
