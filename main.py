@@ -12,6 +12,7 @@ from utils.file_handler import save_draft
 from core.logger import log_event
 from core.wordpress_api import WordPressClient
 from core.plagiarism_checker import PlagiarismChecker
+from templates.article_outline import STRING_ONE, STRING_TWO, STRING_THREE, STRING_FOUR, STRING_FIVE
 
 from langchain.prompts import PromptTemplate
 from langchain.schema import OutputParserException
@@ -28,42 +29,34 @@ openai_model = os.getenv("OPENAI_MODEL")
 ollama_model = os.getenv("OLLAMA_MODEL")
 
 
-
 def build_article_outline_prompt(main_keyword, reference_links=None, secondary_keywords=None):
     reference_links = reference_links or []
     secondary_keywords = secondary_keywords or []
 
     if not reference_links and not secondary_keywords:
-        intro = f'I want you to be an expert in Food and Recipes and Generate an article outline for the topic "{main_keyword}".'
+        intro = STRING_ONE.format(main_keyword=main_keyword)
     elif reference_links and not secondary_keywords:
-        intro = (
-            f'I want you to be an expert in food and culinary writing and Generate an article outline for the topic "{main_keyword}" '
-            f'and use the following articles as the primary source of reference: "{", ".join(reference_links)}"'
+        intro = STRING_TWO.format(
+            main_keyword=main_keyword,
+            reference_links=", ".join(reference_links)
         )
     elif reference_links and secondary_keywords:
-        intro = (
-            f'I want you to be an expert in food and culinary writing and Generate an article outline for the topic "{main_keyword}" '
-            f'and use the following articles as the primary source of reference: "{", ".join(reference_links)}". '
-            f'Make sure to discuss these in the article: "{", ".join(secondary_keywords)}"'
+        intro = STRING_THREE.format(
+            main_keyword=main_keyword,
+            reference_links=", ".join(reference_links),
+            secondary_keywords=", ".join(secondary_keywords)
         )
     elif secondary_keywords and not reference_links:
-        intro = (
-            f'I want you to be an expert in food and culinary writing and Generate an article outline for the topic "{main_keyword}", '
-            f'while making sure to discuss these in the article: "{", ".join(secondary_keywords)}"'
+        intro = STRING_FOUR.format(
+            main_keyword=main_keyword,
+            secondary_keywords=", ".join(secondary_keywords)
         )
 
-    final_instruction = (
-        "Give me strictly just the outline as output, there should be Introduction heading at the start followed by the individual headings for the content. "
-        "No need for Conclusion. Use H2 style headings for each entry, and there should be no subheadings. "
-        "Make the headings engaging, but keep it under 50 characters. Do not give me any additional text other than the outline. "
-        "Make sure the output is in JSON so that it's easier to access the headings.\n"
-        'Here\'s the JSON structure I want to use.'
-    )
+    final_instruction = STRING_FIVE
 
     return f"{intro}\n\n{final_instruction}"
 
 
-# ----- Helpers -----
 def load_prompt(template_name: str, **kwargs) -> str:
     path = Path("templates") / f"{template_name}.txt"
     template = path.read_text(encoding="utf-8")
