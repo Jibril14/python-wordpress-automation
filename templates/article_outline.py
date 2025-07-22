@@ -25,3 +25,8 @@ STRING_FIVE = (
     "Make sure the output is in JSON so that it's easier to access the headings.\n"
     'Here\'s the JSON structure I want to use.'
 )
+
+STRING_SIX = (
+    "Task: Return a short keyword phrase (2-7 words) describing an image for this section. "
+    "Avoid abstract terms; prefer concrete, visual items."
+)
