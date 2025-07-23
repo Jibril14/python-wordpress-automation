@@ -11,6 +11,7 @@ from utils.text_cleaner import clean_article_text
 from utils.file_handler import save_draft
 from core.logger import log_event
 from core.wordpress_api import WordPressClient
+from core.image_vendor import bot
 from core.plagiarism_checker import PlagiarismChecker
 from templates.article_outline import STRING_ONE, STRING_TWO, STRING_THREE, STRING_FOUR, STRING_FIVE
 
@@ -214,28 +215,58 @@ def main():
         if not content and excerpt:
             log_event("ERROR", "Content generation failed")
         else:
+            featured_image_id, *_ = bot.get_image_for_section(main_keyword, " ")
             full_article = ""
             for section in content["sections"]:
                 cleaned_heading = clean_article_text(section["heading"])
                 cleaned_content = clean_article_text(section["content"])
 
                 each_section = cleaned_heading + "\n\n" + cleaned_content # Later I'll add image
-                full_article += each_section + "\n\n"
+                _, img_url, attribution = bot.get_image_for_section(main_keyword, each_section)
+                each_section_plus_image = (
+                    f"""<!-- wp:post-featured-image /-->
+                    <!-- wp:paragraph --><p>&nbsp;</p><!-- /wp:paragraph -->
+                    <!-- wp:heading {"level":2} -->
+                        <h2>{cleaned_heading}</h2>
+                        <!-- /wp:heading -->
+                    <!-- wp:image --><figure class="wp-block-image">
+                        <img src="{img_url}" alt="{attribution}"/></figure><!-- /wp:image -->
+                    
+                    <!-- wp:paragraph --><p>&nbsp;</p><!-- /wp:paragraph -->
+                    <!-- wp:paragraph -->{cleaned_content}<!-- /wp:paragraph -->
+                    """
+                )
+                full_article += each_section_plus_image + "\n\n"
             print("FULL*******Article", full_article)
-            article = Article(title=main_keyword, content=full_article, excerpt=excerpt.get("excerpt", ""))
+                      
+            article = Article(
+                title=main_keyword,
+                content=full_article,
+                excerpt=excerpt.get("excerpt", ""),
+                featured_media=featured_image_id
+            )
 
             draft_path = save_draft(article.title, article.content)
             log_event("INFO", "Draft saved", {"path": str(draft_path)})
 
-            log_event("INFO", "Running plagiarism check")
-            if plagiarism_checker.check(article.content):
-                log_event("SUCCESS", "Content passed plagiarism check")
-                post = wp_client.create_post(article.title, article.content, excerpt=article.excerpt)
-                log_event("SUCCESS", "Post published", {"post_title": post.get("title")})
-                print(f"Post published! ID: {post['id']}")
-            else:
-                log_event("WARNING", "Plagiarism detected. Post not published.")
-                print("Plagiarism detected. Post not published.")
+            post = wp_client.create_post(
+                article.title,
+                article.content,
+                article.featured_media,
+                excerpt=article.excerpt
+            )    
+            log_event("SUCCESS", "Post published", {"post_title": post.get("title")})
+            print(f"Post Drafted! ID: {post['id']}")
+
+            # log_event("INFO", "Running plagiarism check")
+            # if plagiarism_checker.check(article.content):
+            #     log_event("SUCCESS", "Content passed plagiarism check")
+            #     post = wp_client.create_post(article.title, article.content, excerpt=article.excerpt)
+            #     log_event("SUCCESS", "Post published", {"post_title": post.get("title")})
+            #     print(f"Post published! ID: {post['id']}")
+            # else:
+            #     log_event("WARNING", "Plagiarism detected. Post not published.")
+            #     print("Plagiarism detected. Post not published.")
 
 if __name__ == "__main__":
     main()
