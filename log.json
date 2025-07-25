@@ -1,5 +1,186 @@
-{"time": "2025-08-09T15:48:27.071094", "type": "INFO", "message": "Starting article generation"}
-{"time": "2025-08-09T15:50:34.440274", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\AI in 2025.txt"}}
-{"time": "2025-08-09T15:50:34.440274", "type": "INFO", "message": "Running plagiarism check"}
-{"time": "2025-08-09T15:50:34.440274", "type": "SUCCESS", "message": "Content passed plagiarism check"}
-{"time": "2025-08-09T15:50:34.816978", "type": "SUCCESS", "message": "Post published", "extra": {"post_id": 15}}
+{ "time": "2025-08-09T15:48:27.071094", "type": "INFO", "message": "Starting article generation" }
+{ "time": "2025-08-09T15:50:34.440274", "type": "INFO", "message": "Draft saved", "extra": { "path": "data\\drafts\\AI in 2025.txt" } }
+{ "time": "2025-08-09T15:50:34.440274", "type": "INFO", "message": "Running plagiarism check" }
+{ "time": "2025-08-09T15:50:34.440274", "type": "SUCCESS", "message": "Content passed plagiarism check" }
+{ "time": "2025-08-09T15:50:34.816978", "type": "SUCCESS", "message": "Post published", "extra": { "post_id": 15 } }
+{ "time": "2025-08-09T20:53:24.192052", "type": "INFO", "message": "Starting article generation" }
+{ "time": "2025-08-09T20:54:03.615066", "type": "INFO", "message": "Draft saved", "extra": { "path": "data\\drafts\\AI in 2025.txt" } }
+{ "time": "2025-08-09T20:54:03.615192", "type": "INFO", "message": "Running plagiarism check" }
+{ "time": "2025-08-09T20:54:03.616192", "type": "SUCCESS", "message": "Content passed plagiarism check" }
+{ "time": "2025-08-09T21:24:08.155128", "type": "INFO", "message": "Starting article generation" }
+{ "time": "2025-08-09T21:25:33.514442", "type": "INFO", "message": "Draft saved", "extra": { "path": "data\\drafts\\AI in 2025.txt" } }
+{ "time": "2025-08-09T21:25:33.514442", "type": "INFO", "message": "Running plagiarism check" }
+{ "time": "2025-08-09T21:25:33.514442", "type": "SUCCESS", "message": "Content passed plagiarism check" }
+{ "time": "2025-08-09T21:25:36.769993", "type": "SUCCESS", "message": "Post published", "extra": { "post_id": 16 } }
+{ "time": "2025-07-19T11:49:35.136400", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T11:51:30.616752", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T11:53:13.672353", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:09:31.554423", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:10:42.286995", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:11:35.602736", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:12:23.369092", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:13:19.784024", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:14:09.076844", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:15:03.399619", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:15:55.942614", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:17:25.282252", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:23:15.575622", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:23:43.256545", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting value: line 1 column 1 (char 0)" }
+{ "time": "2025-07-19T12:24:42.272973", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting value: line 1 column 1 (char 0)" }
+{ "time": "2025-07-19T12:25:25.516359", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting value: line 1 column 1 (char 0)" }
+{ "time": "2025-07-19T12:25:53.681572", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting value: line 1 column 1 (char 0)" }
+{ "time": "2025-07-19T12:26:27.494422", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting value: line 1 column 1 (char 0)" }
+{ "time": "2025-07-19T12:27:10.463554", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting value: line 1 column 1 (char 0)" }
+{ "time": "2025-07-19T12:40:15.720410", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-07-19T12:42:17.729295", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting ',' delimiter: line 41 column 228 (char 2951)" }
+{ "time": "2025-07-19T12:44:02.540418", "type": "INFO", "message": "Draft saved", "extra": { "path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt" } }
+{ "time": "2025-07-19T12:44:02.541386", "type": "INFO", "message": "Running plagiarism check" }
+{ "time": "2025-07-19T12:44:02.542385", "type": "SUCCESS", "message": "Content passed plagiarism check" }
+{ "time": "2025-07-19T12:44:04.027834", "type": "SUCCESS", "message": "Post published", "extra": { "post_title": { "raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" } } }
+{ "time": "2025-08-12T12:57:32.185311", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-08-12T12:59:25.069104", "type": "INFO", "message": "Draft saved", "extra": { "path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt" } }
+{ "time": "2025-08-12T12:59:25.070106", "type": "INFO", "message": "Running plagiarism check" }
+{ "time": "2025-08-12T12:59:25.070106", "type": "SUCCESS", "message": "Content passed plagiarism check" }
+{ "time": "2025-08-12T12:59:25.238640", "type": "SUCCESS", "message": "Post published", "extra": { "post_title": { "raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" } } }
+{ "time": "2025-08-12T13:02:03.491955", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-08-12T13:02:48.769493", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting value: line 1 column 1 (char 0)" }
+{ "time": "2025-08-12T13:02:52.624186", "type": "ERROR", "message": "Content generation failed" }
+{ "time": "2025-08-12T13:06:47.920796", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-08-12T13:08:21.412044", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting ',' delimiter: line 43 column 2 (char 2427)" }
+{ "time": "2025-08-12T13:08:25.816870", "type": "ERROR", "message": "Content generation failed" }
+{ "time": "2025-08-12T13:16:44.880961", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-08-12T13:18:53.354087", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting ',' delimiter: line 43 column 2 (char 3147)" }
+{ "time": "2025-08-12T13:18:57.641755", "type": "ERROR", "message": "Content generation failed" }
+{ "time": "2025-08-12T13:24:30.775307", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" }
+{ "time": "2025-08-12T13:30:19.141271", "type": "INFO", "message": "Draft saved", "extra": { "path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt" } }
+{ "time": "2025-08-12T13:30:19.156958", "type": "INFO", "message": "Running plagiarism check" }
+{ "time": "2025-08-12T13:30:19.156958", "type": "SUCCESS", "message": "Content passed plagiarism check" }
+{ "time": "2025-08-12T13:30:19.472359", "type": "SUCCESS", "message": "Post published", "extra": { "post_title": { "raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen" } } }
+{"time": "2025-08-12T15:23:24.444612", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T15:28:53.647075", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T15:40:29.855242", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T15:41:37.224332", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-12T15:41:37.224332", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-12T15:41:37.224332", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-12T15:41:37.746636", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-07-19T16:39:11.924964", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:40:15.926146", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:40:38.715320", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:43:57.918635", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:44:53.894895", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:45:54.112464", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:47:44.049281", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:48:21.747661", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:48:47.860938", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:49:59.395349", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:52:42.213323", "type": "ERROR", "message": "content_structoutput: Invalid JSON output from LLM: Expecting ',' delimiter: line 43 column 2 (char 2172)"}
+{"time": "2025-07-19T16:52:47.962052", "type": "ERROR", "message": "Content generation failed"}
+{"time": "2025-07-19T16:53:17.089302", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:56:28.601658", "type": "ERROR", "message": "excerpt_structoutput: Invalid JSON output from LLM: Expecting ',' delimiter: line 2 column 149 (char 150)"}
+{"time": "2025-07-19T16:56:56.851615", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T16:59:18.971705", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T17:02:35.298084", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-07-19T17:02:35.298084", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-07-19T17:02:35.313752", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-07-19T17:02:35.788218", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-07-19T17:18:49.663237", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-19T17:18:53.064627", "type": "ERROR", "message": "JSON does not match schema: Connection error."}
+{"time": "2025-07-19T17:18:53.064627", "type": "ERROR", "message": "Article outline generation failed on 1 attempt"}
+{"time": "2025-07-19T17:18:53.064627", "type": "ERROR", "message": "Article outline generation failed: on 1 Attempt Failing to generate prompt outline"}
+{"time": "2025-07-19T17:18:53.064627", "type": "WARNING", "message": "Continuing despite error: Failing to generate prompt outline"}
+{"time": "2025-08-12T17:20:34.054346", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T17:36:21.627766", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T17:36:49.867358", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-12T17:36:49.867358", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-12T17:36:49.867358", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-12T17:36:50.277271", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-12T17:38:00.508931", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T17:38:29.146759", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-12T17:38:29.146759", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-12T17:38:29.146759", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-12T17:38:29.496928", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-12T20:53:17.885336", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T20:53:57.812052", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-12T20:53:57.815052", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-12T20:53:57.816047", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-12T20:54:03.869837", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-12T21:07:47.554476", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T21:08:19.764301", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-12T21:08:19.766268", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-12T21:08:19.768273", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-12T21:08:21.037490", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-07-12T21:52:12.164005", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-07-12T21:52:16.866878", "type": "ERROR", "message": "JSON does not match schema: Connection error."}
+{"time": "2025-07-12T21:52:16.870883", "type": "ERROR", "message": "Article outline generation failed on  attempt"}
+{"time": "2025-08-12T21:53:25.274516", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T21:53:54.968721", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-12T21:53:54.968721", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-12T21:53:54.968721", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-12T21:53:56.140597", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-12T23:34:57.826747", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-12T23:35:29.187230", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-12T23:35:29.188605", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-12T23:35:29.188605", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-12T23:35:30.924127", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T01:29:21.851627", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T01:29:58.018325", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T01:29:58.018325", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-14T01:29:58.018325", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-14T01:29:58.560218", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T01:34:39.476197", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T01:35:41.472816", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T01:35:41.474791", "type": "INFO", "message": "Running plagiarism check"}
+{"time": "2025-08-14T01:35:41.475811", "type": "SUCCESS", "message": "Content passed plagiarism check"}
+{"time": "2025-08-14T01:35:42.245568", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T12:10:46.934031", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T12:14:16.305314", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T12:55:05.628799", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T12:56:50.086622", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T12:56:50.599489", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T13:34:22.587003", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T13:36:48.165478", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T13:36:48.622827", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T14:56:55.208339", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T14:59:28.286154", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T15:15:06.383857", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T15:17:52.984388", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T15:27:44.709031", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T15:29:55.169628", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T15:32:27.189676", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T15:34:44.770083", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T15:39:49.209596", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T15:42:14.217841", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T15:42:14.735729", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T15:49:57.178455", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T15:52:09.209466", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T15:52:09.637413", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T20:50:48.936678", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T21:03:29.071147", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T21:04:29.883815", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T21:04:30.443009", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T21:21:23.837398", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T21:23:44.959600", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T21:23:45.455862", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T21:28:42.438453", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T21:31:13.767849", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T21:31:14.201897", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T21:44:15.427211", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T21:46:43.871246", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T21:46:44.267777", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T21:53:36.060721", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T21:55:28.029748", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T21:55:28.361649", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T22:00:33.815202", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T22:02:30.623761", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T22:02:30.945665", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T22:06:25.790060", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T22:08:16.163714", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T22:08:16.545320", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-14T22:12:57.057446", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T22:15:38.431410", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T22:15:38.751062", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-07-23T22:30:48.302826", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T22:34:08.563200", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}
+{"time": "2025-08-14T22:36:03.201746", "type": "INFO", "message": "Draft saved", "extra": {"path": "data\\drafts\\10 Foods That Once Filled Every American FridgeNow Theyre Rarely Seen.txt"}}
+{"time": "2025-08-14T22:36:03.550482", "type": "SUCCESS", "message": "Post published", "extra": {"post_title": {"raw": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen", "rendered": "10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}}}
+{"time": "2025-08-16T11:33:07.059659", "type": "INFO", "message": "Processing keyword: 10 Foods That Once Filled Every American Fridge\u2014Now They\u2019re Rarely Seen"}

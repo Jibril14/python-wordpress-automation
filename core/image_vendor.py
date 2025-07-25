@@ -1,14 +1,12 @@
 import os
 import requests
-import json
 from io import BytesIO
 from base64 import b64encode
-from openai import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 from templates.article_outline import STRING_SIX
-from langchain_ollama import OllamaLLM 
+from .logger import log_event
 
 load_dotenv()
 
@@ -26,39 +24,31 @@ class ImageIntegrationBot:
     def __init__(self, wp_url, wp_user, wp_pass, api_keys):
         self.wp_url = wp_url.rstrip("/")
         token = b64encode(f"{wp_user}:{wp_pass}".encode())
-        self.wp_headers = {'Authorization': f'Basic {token.decode("utf-8")}'}
+        self.wp_headers = {
+            "Authorization": f"Basic {token.decode('utf-8')}",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        }
         self.api_keys = api_keys
 
     def generate_keyword(self, title, section):
-        # Create the LLM instance
         llm = ChatOpenAI(
             model=openai_model,
             temperature=0.7,
             api_key=openai_api_key
         )
-
-        # Create the prompt
         prompt_template = PromptTemplate.from_template("{prompt}")
-
-        # Chain the prompt into the model
         chain = prompt_template | llm
-
-        # Build the full prompt
         full_prompt = f"""
         Blog Title: {title}
         Section: {section}
 
         {STRING_SIX}
         """
-        print("full_prompt:", full_prompt)
         try:
             result = chain.invoke({"prompt": full_prompt})
-            print("KEYWORD:", result.content)
             return result.content
         except Exception as e:
-            print("OpenAI keyword generation error:", e)
             return None
-
 
     def search_pexels(self, query):
         try:
@@ -68,10 +58,9 @@ class ImageIntegrationBot:
             data = r.json()
             if data['photos']:
                 img = data['photos'][0]
-                print("Pixel Image:", data['photos'][0])
                 return img['src']['large'], f"Photo by {img['photographer']} on Pexels"
         except Exception as e:
-            print("Pexels error:", e)
+            log_event("ERROR", f"Couldn't use image from this vendor: {e}") 
         return None
 
     def search_unsplash(self, query):
@@ -82,10 +71,9 @@ class ImageIntegrationBot:
             data = r.json()
             if data['results']:
                 img = data['results'][0]
-                print("Unsplash Image:", img['urls']['regular'])
                 return img['urls']['regular'], f"Photo by {img['user']['name']} on Unsplash"
         except Exception as e:
-            print("Unsplash error:", e)
+            log_event("ERROR", f"Couldn't use image from this vendor: {e}") 
         return None
 
     def search_pixabay(self, query):
@@ -96,10 +84,9 @@ class ImageIntegrationBot:
             data = r.json()
             if data['hits']:
                 img = data['hits'][0]
-                print("Pixabay IMG:", img['largeImageURL'])
                 return img['largeImageURL'], f"Image by {img['user']} from Pixabay"
         except Exception as e:
-            print("Pixabay error:", e)
+            log_event("ERROR", f"Couldn't use image from this vendor: {e}") 
         return None
     
     def search_freepik(self, query):
@@ -108,7 +95,6 @@ class ImageIntegrationBot:
                 "x-freepik-api-key": self.api_keys['freepik']
             }
 
-            # Step 1: Search for resources
             search_url = "https://api.freepik.com/v1/resources"
             params = {
                 "search": query,
@@ -121,47 +107,42 @@ class ImageIntegrationBot:
             if not data.get("data"):
                 return None
 
-            # Step 2: Loop through results and pick first direct image
             for item in data["data"]:
                 resource_id = item["id"]
                 title = item.get("title", "Freepik image")
                 author_name = item.get("author", {}).get("name", "")
 
-                # Step 3: Get download URL
                 download_url = f"https://api.freepik.com/v1/resources/{resource_id}/download"
                 dl = requests.get(download_url, headers=headers)
                 dl.raise_for_status()
                 dl_data = dl.json()
                 img_url = dl_data["data"]["url"]
 
-                # Step 4: Filter only jpg/png
                 if img_url.lower().endswith((".jpg", ".jpeg", ".png")):
                     attribution = f"{title} by {author_name} on Freepik"
                     return img_url, attribution
 
-            # If we got here, no valid JPG/PNG found
+            # I.e, no valid JPG/PNG found
             return None
 
         except Exception as e:
-            print("Freepik error:", e)
+            log_event("ERROR", f"Couldn't use image from this vendor: {e}") 
             return None
-
 
     def search_wikimedia(self, query):
         try:
             headers = {
-                "User-Agent": "WPImageBot/1.0 (https://foodnservice.com/contact)"
+                "User-Agent": f"WPImageBot/1.0 ({self.wp_url}/contact)"
             }
 
-            # Step 1: Search for file pages only
             search_url = "https://commons.wikimedia.org/w/api.php"
             params = {
                 "action": "query",
                 "format": "json",
                 "list": "search",
                 "srsearch": query,
-                "srnamespace": 6,  # Only File namespace
-                "srlimit": 5       # Get a few to filter later
+                "srnamespace": 6,
+                "srlimit": 5
             }
             r = requests.get(search_url, params=params, headers=headers)
             r.raise_for_status()
@@ -170,9 +151,8 @@ class ImageIntegrationBot:
             if not data['query']['search']:
                 return None
 
-            # Step 2: Loop through results to find first actual image
             for result in data['query']['search']:
-                file_title = result['title']  # e.g., 'File:Example.jpg'
+                file_title = result['title']
 
                 imageinfo_url = "https://commons.wikimedia.org/w/api.php"
                 params = {
@@ -185,21 +165,18 @@ class ImageIntegrationBot:
                 img_req = requests.get(imageinfo_url, params=params, headers=headers)
                 img_req.raise_for_status()
                 image_data = img_req.json()
-                print("Image_data", image_data)
 
                 pages = image_data["query"]["pages"]
                 for page in pages.values():
                     if "imageinfo" in page:
                         info = page["imageinfo"][0]
                         mime = info.get("mime", "")
-                        if mime.startswith("image/"):  # Only accept images
+                        if mime.startswith("image/"):
                             img_url = info["url"]
-                            print("WIKI IMG:*********", img_url)
                             return img_url, f"Image from Wikimedia Commons ({file_title})"
 
         except Exception as e:
-            print("Wikimedia error:", e)
-
+            log_event("ERROR", f"Couldn't use image from this vendor: {e}") 
         return None
 
     def download_image(self, url):
@@ -208,25 +185,33 @@ class ImageIntegrationBot:
         return BytesIO(r.content)
 
     def upload_to_wordpress(self, img_data, filename, caption):
-        files = {'file': (filename, img_data)}
-        data = {'caption': caption, 'description': caption}
-        r = requests.post(f"{self.wp_url}/wp-json/wp/v2/media",
-                          headers=self.wp_headers,
-                          files=files,
-                          data=data)
+        files = {
+            "file": (filename, img_data, "image/jpeg")
+        }
+        data = {
+            "caption": caption,
+            "description": caption
+        }
+
+        r = requests.post(
+            f"{self.wp_url}/wp-json/wp/v2/media",
+            headers=self.wp_headers,
+            files=files,
+            data=data
+        )
         r.raise_for_status()
 
         media_data = r.json()
         return {
-            "id": media_data["id"],          
+            "id": media_data["id"],
             "url": media_data["source_url"]
         }
-
+    
     def get_image_for_section(self, title, section):
         query = self.generate_keyword(title, section)
         for vendor in [
-            self.search_pexels,
             self.search_unsplash,
+            self.search_pexels,
             self.search_pixabay,
             self.search_wikimedia,
             self.search_freepik,
@@ -236,9 +221,6 @@ class ImageIntegrationBot:
                 img_url, attribution = result
                 img_data = self.download_image(img_url)
                 media_info = self.upload_to_wordpress(img_data, f"{query}.jpg", attribution)
-                print("IMG ID:", media_info["id"])
-                print("wp_img_url:", media_info["url"])
-
                 return media_info["id"], media_info["url"], attribution
         return None, None
 

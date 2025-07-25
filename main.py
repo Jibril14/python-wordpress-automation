@@ -1,22 +1,18 @@
 import os
 import json
 from typing import Any, Dict
-import jsonschema
 import pandas as pd
 from dotenv import load_dotenv
 from pathlib import Path
-from retrying import retry
 from models.article import Article
 from utils.text_cleaner import clean_article_text
 from utils.file_handler import save_draft
 from core.logger import log_event
 from core.wordpress_api import WordPressClient
 from core.image_vendor import bot
-from core.plagiarism_checker import PlagiarismChecker
 from templates.article_outline import STRING_ONE, STRING_TWO, STRING_THREE, STRING_FOUR, STRING_FIVE
 
 from langchain.prompts import PromptTemplate
-from langchain.schema import OutputParserException
 from langchain_openai import ChatOpenAI
 
 
@@ -27,8 +23,6 @@ wordpress_username = os.getenv("WORDPRESS_USERNAME")
 wordpress_app_password = os.getenv("WORDPRESS_APP_PASSWORD")
 openai_api_key = os.getenv("OPENAI_API_KEY")
 openai_model = os.getenv("OPENAI_MODEL")
-ollama_model = os.getenv("OLLAMA_MODEL")
-
 
 def build_article_outline_prompt(main_keyword, reference_links=None, secondary_keywords=None):
     reference_links = reference_links or []
@@ -52,11 +46,9 @@ def build_article_outline_prompt(main_keyword, reference_links=None, secondary_k
             main_keyword=main_keyword,
             secondary_keywords=", ".join(secondary_keywords)
         )
-
     final_instruction = STRING_FIVE
 
     return f"{intro}\n\n{final_instruction}"
-
 
 def load_prompt(template_name: str, **kwargs) -> str:
     path = Path("templates") / f"{template_name}.txt"
@@ -73,7 +65,7 @@ def load_schema(schema_name: str) -> Dict[str, Any]:
 def run_llm(template_name: str, schema_name: str, **kwargs):
     """Run a template + schema (example embedded) with manual JSON parsing."""
     
-    # Load schema + example from file
+    # Load json schema + example from file
     schema_file = load_schema(schema_name)
     example_json = schema_file["example"]
     json_schema = schema_file["format"]
@@ -90,10 +82,6 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     full_prompt = f"""{prompt_text}
     {format_instructions}
     """
-
-    print("\n")
-    print("Full Prompt Sent to run_llm:\n", full_prompt)
-
     llm = ChatOpenAI(
         model=openai_model,
         temperature=0.7,
@@ -102,9 +90,7 @@ def run_llm(template_name: str, schema_name: str, **kwargs):
     )
 
     chain = PromptTemplate.from_template("{prompt}") | llm
-
     result = chain.invoke({"prompt": full_prompt})
-    print("OpenAI (result.content) 1:", result.content)
 
     try:     
         return json.loads(result.content)
@@ -124,15 +110,12 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
     You MUST include every field exactly as in the example.
 
     {json.dumps(json_example, indent=4)}
-
     """
 
     full_prompt = f"""{prompt_text}
 
     {format_instructions}
     """
-    print("Full Prompt:", full_prompt)
-
 
     llm = ChatOpenAI(
         model=openai_model,
@@ -140,14 +123,11 @@ def run_llm_from_text(prompt_text: str, schema_name: str):
         api_key=openai_api_key,
         response_format = json_schema
     )
-
     chain = PromptTemplate.from_template("{prompt}") | llm
     try:
         result = chain.invoke({"prompt": full_prompt})
-        print("OpenAI (result.content) 2:", result.content)
         return json.loads(result.content)
     except Exception as err:
-        print("===Failed Perse and Validated LLM Output 1===")
         log_event("ERROR", f"JSON does not match schema: {err}")
         return None 
 
@@ -156,8 +136,6 @@ def process_row(main_keyword, reference_links, secondary_keywords):
     
     outline_prompt = build_article_outline_prompt(main_keyword, reference_links, secondary_keywords)
     outline = run_llm_from_text(outline_prompt, schema_name="outline_structoutput")
-    print("Prompt Schema Outline Gen********:", outline)
-
     try:
         if not outline:
             log_event("ERROR", f"Article outline generation failed on  attempt")
@@ -165,11 +143,9 @@ def process_row(main_keyword, reference_links, secondary_keywords):
         log_event("ERROR", f"Article outline generation failed: {err}")
         log_event("WARNING", f"Continuing despite error: {err}")
 
-    # Build Chunks from outline (assuming JSON structure like: {"sections": [{"heading": "..."}]})
     chunks_text = ""
     if isinstance(outline, dict):
         sections = outline.get("sections") or outline.get("headings") or []
-        print("Section***********", sections)
         if isinstance(sections, list):
             chunks_text = "\n".join(
                 sec.get("heading", "").strip()
@@ -197,20 +173,20 @@ def main():
         wordpress_username,
         wordpress_app_password
     )
-    plagiarism_checker = PlagiarismChecker()
 
     df = pd.read_csv("data.csv")
 
     for _, row in df.iterrows():
         main_keyword = row.get("Main Keyword", "").strip()
-        reference_links = row.get("Reference Links", "").split(",")
-        secondary_keywords = row.get("Secondary Keywords", "").split(",")
-        print("Main keyword *******:", main_keyword)
-        print("Reference Links *******:", reference_links)
-        print("Secondary Keywords *******:", secondary_keywords)
+        reference_links = (
+            row.get("Reference Links", "")
+            if isinstance(row.get("Reference Links", ""), str)
+            else "").split(",") if row.get("Reference Links") else []
+        secondary_keywords = (
+            row.get("Secondary Keywords", "")
+            if isinstance(row.get("Secondary Keywords", ""), str)
+            else "").split(",") if row.get("Secondary Keywords") else []
         content, excerpt = process_row(main_keyword, reference_links, secondary_keywords)
-        print("***************CONTENT************", content)
-        print("***************Excerpt************", excerpt)
 
         if not content and excerpt:
             log_event("ERROR", "Content generation failed")
@@ -237,7 +213,6 @@ def main():
                     """
                 )
                 full_article += each_section_plus_image + "\n\n"
-            print("FULL*******Article", full_article)
                       
             article = Article(
                 title=main_keyword,
@@ -255,18 +230,9 @@ def main():
                 article.featured_media,
                 excerpt=article.excerpt
             )    
-            log_event("SUCCESS", "Post published", {"post_title": post.get("title")})
+            log_event("SUCCESS", "Post Drafted", {"post_title": post.get("title")})
             print(f"Post Drafted! ID: {post['id']}")
 
-            # log_event("INFO", "Running plagiarism check")
-            # if plagiarism_checker.check(article.content):
-            #     log_event("SUCCESS", "Content passed plagiarism check")
-            #     post = wp_client.create_post(article.title, article.content, excerpt=article.excerpt)
-            #     log_event("SUCCESS", "Post published", {"post_title": post.get("title")})
-            #     print(f"Post published! ID: {post['id']}")
-            # else:
-            #     log_event("WARNING", "Plagiarism detected. Post not published.")
-            #     print("Plagiarism detected. Post not published.")
 
 if __name__ == "__main__":
     main()
